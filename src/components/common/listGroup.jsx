@@ -1,7 +1,7 @@
 import React from "react";
 
 const ListGroup = ({ genres, id, item, onGenreChange, activeGenre }) => {
-  console.log("Props as: ", id, item);
+  console.log("Genres in ListGroup: ", genres);
   return (
     <ul className="list-group" style={{ cursor: "pointer" }}>
       <li

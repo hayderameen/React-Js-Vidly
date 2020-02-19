@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import * as movies from "../services/fakeMovieService";
-import * as genres from "../services/fakeGenreService";
+import * as movies from "../services/movieService";
+import * as genres from "../services/genreService";
 import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
 import ListGroup from "./common/listGroup";
@@ -31,17 +31,33 @@ class Movies extends Component {
     this.pagedData = this.pagedData.bind(this);
   }
 
-  componentDidMount() {
-    this.setState({ movies: movies.getMovies(), genres: genres.getGenres() });
-    console.log("Genres in state as: ", genres.getGenres());
+  async componentDidMount() {
+    const tempGenres = await genres.getGenres();
+    const tempMovies = await movies.getMovies();
+    this.setState({ movies: tempMovies, genres: tempGenres });
   }
 
-  handleDelete(movieId) {
-    movies.deleteMovie(movieId);
+  async handleDelete(movieId) {
+    const originalMovies = this.state.movies;
+
+    const moviesAfterDelete = originalMovies.filter(m => m._id !== movieId);
+
     this.setState({
-      moviesCount: this.state.moviesCount - 1,
-      movies: movies.getMovies()
+      moviesCount: moviesAfterDelete.length,
+      movies: moviesAfterDelete
     });
+
+    try {
+      await movies.deleteMovie(movieId);
+    } catch (ex) {
+      if (ex.response && ex.response === 404) {
+        alert("This movies is already deleted!");
+      }
+      this.setState({
+        movies: originalMovies,
+        moviesCount: originalMovies.length
+      });
+    }
   }
 
   handleLike(movie) {
