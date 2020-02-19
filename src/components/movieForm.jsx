@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
-import * as Movies from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+import * as Movies from "../services/movieService";
+import { getGenres } from "../services/genreService";
 
 class MovieForm extends Form {
   constructor(props) {
@@ -20,13 +20,14 @@ class MovieForm extends Form {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const tempGenres = await getGenres();
     if (this.props.match.params.id === "new") {
-      this.setState({ genres: getGenres() });
+      this.setState({ genres: tempGenres });
       return;
     }
 
-    const movie = Movies.getMovie(this.props.match.params.id);
+    const movie = await Movies.getMovie(this.props.match.params.id);
     console.log(movie);
     if (!movie) {
       this.props.history.replace("/not-found");
@@ -39,7 +40,7 @@ class MovieForm extends Form {
         numberInStock: movie.numberInStock,
         dailyRentalRate: movie.dailyRentalRate
       },
-      genres: getGenres()
+      genres: tempGenres
     });
   }
 
@@ -59,7 +60,7 @@ class MovieForm extends Form {
       .label("Rate")
   };
 
-  doSubmit() {
+  async doSubmit() {
     const { history, match } = this.props;
     console.log("Submitted");
     const { data, genres } = this.state;
@@ -68,17 +69,20 @@ class MovieForm extends Form {
     const genreId = genres.find(g => g.name === data.genre)._id;
 
     const saveMovie = {
-      _id: match.params.id === "new" ? Date.now() + "" : match.params.id,
       title: data.title,
-      genre: { _id: genreId, name: data.genre },
+      genreId: genreId,
       numberInStock: data.numberInStock,
       dailyRentalRate: data.dailyRentalRate
     };
     console.log(saveMovie);
-    Movies.saveMovie(saveMovie);
+    if (this.props.match.params.id === "new") {
+      await Movies.saveMovie(saveMovie);
+    } else {
+      await Movies.updateMovie(this.props.match.params.id, saveMovie);
+    }
     history.replace("/movies");
 
-    console.log("Movies array after saving: ", Movies.getMovies());
+    //console.log("Movies array after saving: ", Movies.getMovies());
   }
 
   render() {

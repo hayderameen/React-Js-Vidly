@@ -11,4 +11,18 @@ async function deleteMovie(id) {
   await http.delete(`${config.moviesEndpoint}/${id}`);
 }
 
-export { getMovies, deleteMovie };
+async function getMovie(id) {
+  const { data: movie } = await http.get(`${config.moviesEndpoint}/${id}`);
+  return movie;
+}
+
+async function saveMovie(movie) {
+  console.log("This movie", movie);
+  await http.post(config.moviesEndpoint, movie);
+}
+
+async function updateMovie(id, movie) {
+  await http.put(`${config.moviesEndpoint}/${id}`, movie);
+}
+
+export { getMovies, deleteMovie, getMovie, saveMovie, updateMovie };
