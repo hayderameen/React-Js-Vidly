@@ -1,5 +1,8 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { getCurrentToken } from "./authService";
+
+axios.defaults.headers.common["x-auth-token"] = getCurrentToken();
 
 axios.interceptors.response.use(null, error => {
   // It is handling unexpected errors globally
@@ -10,7 +13,12 @@ axios.interceptors.response.use(null, error => {
   if (!expectedError) {
     console.log("Logging the unexpected error: ", error);
     toast.error("An unexpected error occured");
+  } else if (error.response && error.response.status === 403) {
+    toast.warn("You are not allowed to delete a movie!");
+  } else if (error.response && error.response.status === 400) {
+    toast.warn("You are not logged in!");
   }
+
   return Promise.reject(error);
 });
 

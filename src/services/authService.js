@@ -19,3 +19,7 @@ export function getCurrentUser() {
     return null;
   }
 }
+
+export function getCurrentToken() {
+  return localStorage.getItem(config.tokenKeyTitle);
+}

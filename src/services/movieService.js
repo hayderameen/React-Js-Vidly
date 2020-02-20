@@ -3,7 +3,7 @@ import config from "./../config.json";
 
 async function getMovies() {
   const { data: movies } = await http.get(config.moviesEndpoint);
-  console.log("Movies got from Server: ", movies);
+
   return movies;
 }
 
@@ -17,7 +17,6 @@ async function getMovie(id) {
 }
 
 async function saveMovie(movie) {
-  console.log("This movie", movie);
   await http.post(config.moviesEndpoint, movie);
 }
 

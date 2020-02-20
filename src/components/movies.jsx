@@ -88,7 +88,6 @@ class Movies extends Component {
 
   handleSearch(query) {
     this.setState({ searchQuery: (this.state.searchQuery = query) });
-    console.log("Search Query: ", this.state.searchQuery);
   }
 
   pagedData() {
@@ -107,8 +106,6 @@ class Movies extends Component {
 
     let tempPaginatedMovies = [...paginatedMovies];
 
-    console.log("CURRENTLY SELECTED MOVIES BASED ON GENRE: ", paginatedMovies);
-
     tempPaginatedMovies = _.orderBy(
       tempPaginatedMovies,
       [this.state.sort.property],
@@ -120,9 +117,6 @@ class Movies extends Component {
       this.state.currentPage,
       this.state.pageSize
     );
-
-    console.log("Paginated Movies after paginate function", paginatedMovies);
-    console.log(this.state.sort, "is going to be sorted");
 
     return { paginatedMovies, tempPaginatedMovies };
   }

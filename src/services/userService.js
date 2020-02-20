@@ -6,7 +6,7 @@ export async function register(user) {
   try {
     const { headers } = await http.post(config.usersEndpoint, user);
     toast.success(`${user.email} is registered!`);
-    console.log(headers["x-auth-token"]);
+
     return headers["x-auth-token"];
   } catch (ex) {
     if (ex.response && ex.response.status === 400) {

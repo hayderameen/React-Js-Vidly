@@ -5,10 +5,9 @@ import { number } from "prop-types";
 import { func } from "prop-types";
 
 const Pagination = ({ itemsCount, pageSize, onPageChange, currentPage }) => {
-  console.log("Inside Pagination.jsx. ItemsCount: ", itemsCount);
   const pageCount = itemsCount / pageSize;
   const pages = _.range(1, pageCount + 1);
-  console.log(pages);
+
   if (pageCount <= 1) return null;
   return (
     <nav>

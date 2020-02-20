@@ -62,7 +62,7 @@ class MovieForm extends Form {
 
   async doSubmit() {
     const { history, match } = this.props;
-    console.log("Submitted");
+
     const { data, genres } = this.state;
     // Perform saving action here
     // Getting genre ID to save in final movie object
@@ -74,15 +74,13 @@ class MovieForm extends Form {
       numberInStock: data.numberInStock,
       dailyRentalRate: data.dailyRentalRate
     };
-    console.log(saveMovie);
+
     if (match.params.id === "new") {
       await Movies.saveMovie(saveMovie);
     } else {
       await Movies.updateMovie(match.params.id, saveMovie);
     }
     history.replace("/movies");
-
-    //console.log("Movies array after saving: ", Movies.getMovies());
   }
 
   render() {
