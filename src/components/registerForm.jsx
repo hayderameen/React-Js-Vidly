@@ -26,9 +26,9 @@ class RegisterForm extends Form {
   };
 
   async doSubmit() {
-    const token = await User.register(this.state.data);
+    const token = await User.register(this.state.data); // JSON Web Token
     localStorage.setItem("token", token);
-    this.props.history.replace("/");
+    window.location = "/"; // To reload the app properly after logging in
   }
 
   render() {

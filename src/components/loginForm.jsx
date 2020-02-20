@@ -25,10 +25,10 @@ class LoginForm extends Form {
   };
 
   async doSubmit() {
-    const token = await login(this.state.data);
+    const token = await login(this.state.data); // JSON Web Token
     console.log("TOKEN --> ", token);
     localStorage.setItem("token", token);
-    this.props.history.replace("/");
+    window.location = "/"; // To reload the app properly after logging in
   }
 
   render() {
