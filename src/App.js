@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Movies from "./components/movies";
 import { Route, Switch, Redirect } from "react-router-dom";
-import jwtDecode from "jwt-decode";
+import { getCurrentUser } from "./services/authService";
+import Movies from "./components/movies";
 import Customers from "./components/customers";
 import MovieForm from "./components/movieForm";
 import Rentals from "./components/rentals";
@@ -17,11 +17,8 @@ class App extends Component {
   state = {};
 
   componentDidMount() {
-    try {
-      const token = localStorage.getItem("token");
-      const userObject = jwtDecode(token);
-      this.setState({ user: userObject });
-    } catch (error) {}
+    const userObject = getCurrentUser();
+    this.setState({ user: userObject });
   }
   render() {
     return (

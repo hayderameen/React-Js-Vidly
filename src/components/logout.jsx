@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { logoutAuth } from "../services/authService";
 
 class Logout extends Component {
   constructor(props) {
@@ -6,8 +7,7 @@ class Logout extends Component {
   }
 
   componentDidMount() {
-    localStorage.removeItem("token");
-    window.location = "/";
+    logoutAuth();
   }
 
   render() {

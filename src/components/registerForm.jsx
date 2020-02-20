@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Form from "./common/form";
 import Joi from "joi-browser";
 import * as User from "../services/userService";
+import { loginAuth } from "../services/authService";
 
 class RegisterForm extends Form {
   constructor(props) {
@@ -27,8 +28,7 @@ class RegisterForm extends Form {
 
   async doSubmit() {
     const token = await User.register(this.state.data); // JSON Web Token
-    localStorage.setItem("token", token);
-    window.location = "/"; // To reload the app properly after logging in
+    loginAuth(token);
   }
 
   render() {

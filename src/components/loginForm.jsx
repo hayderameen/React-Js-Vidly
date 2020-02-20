@@ -4,6 +4,7 @@ import Joi from "joi-browser";
 import Form from "./common/form";
 import { Link } from "react-router-dom";
 import { login } from "../services/userService";
+import { loginAuth } from "../services/authService";
 
 class LoginForm extends Form {
   constructor(props) {
@@ -26,9 +27,7 @@ class LoginForm extends Form {
 
   async doSubmit() {
     const token = await login(this.state.data); // JSON Web Token
-    console.log("TOKEN --> ", token);
-    localStorage.setItem("token", token);
-    window.location = "/"; // To reload the app properly after logging in
+    loginAuth(token);
   }
 
   render() {
