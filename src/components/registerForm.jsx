@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Form from "./common/form";
 import Joi from "joi-browser";
+import * as User from "../services/userService";
 
 class RegisterForm extends Form {
   constructor(props) {
@@ -24,8 +25,10 @@ class RegisterForm extends Form {
       .label("Name")
   };
 
-  doSubmit() {
-    console.log("Submitted");
+  async doSubmit() {
+    const token = await User.register(this.state.data);
+    localStorage.setItem("token", token);
+    this.props.history.replace("/");
   }
 
   render() {

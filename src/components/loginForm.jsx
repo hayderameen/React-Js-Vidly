@@ -3,6 +3,7 @@ import Input from "./common/input";
 import Joi from "joi-browser";
 import Form from "./common/form";
 import { Link } from "react-router-dom";
+import { login } from "../services/userService";
 
 class LoginForm extends Form {
   constructor(props) {
@@ -23,8 +24,11 @@ class LoginForm extends Form {
       .label("Password")
   };
 
-  doSubmit() {
-    console.log("Submitted");
+  async doSubmit() {
+    const token = await login(this.state.data);
+    console.log("TOKEN --> ", token);
+    localStorage.setItem("token", token);
+    this.props.history.replace("/");
   }
 
   render() {

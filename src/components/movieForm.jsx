@@ -75,10 +75,10 @@ class MovieForm extends Form {
       dailyRentalRate: data.dailyRentalRate
     };
     console.log(saveMovie);
-    if (this.props.match.params.id === "new") {
+    if (match.params.id === "new") {
       await Movies.saveMovie(saveMovie);
     } else {
-      await Movies.updateMovie(this.props.match.params.id, saveMovie);
+      await Movies.updateMovie(match.params.id, saveMovie);
     }
     history.replace("/movies");
 
