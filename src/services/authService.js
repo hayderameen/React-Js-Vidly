@@ -1,9 +1,10 @@
 import config from "./../config.json";
 import jwtDecode from "jwt-decode";
 
-export function loginAuth(token) {
+export function loginAuth(token, state) {
   localStorage.setItem(config.tokenKeyTitle, token);
-  window.location = "/"; // To reload the app properly after logging in
+
+  window.location = state ? state.from.pathname : "/"; // To reload the app properly after logging in
 }
 
 export function logoutAuth() {

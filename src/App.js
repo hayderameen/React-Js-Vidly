@@ -30,7 +30,7 @@ class App extends Component {
         <main className="container" style={{ paddingTop: 60 }}>
           <Switch>
             <ProtectedRoute path={"/movies/:id"} component={MovieForm} />
-            <ProtectedRoute path={"/movies/new"} component={null} />
+            <ProtectedRoute path={"/movies/new"} component={MovieForm} />
             <Route
               path="/movies"
               render={props => <Movies {...props} user={user} />}

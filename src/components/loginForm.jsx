@@ -27,7 +27,8 @@ class LoginForm extends Form {
 
   async doSubmit() {
     const token = await login(this.state.data); // JSON Web Token
-    loginAuth(token);
+    const { state } = this.props.location;
+    loginAuth(token, state);
   }
 
   render() {

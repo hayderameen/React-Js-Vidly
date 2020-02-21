@@ -81,8 +81,7 @@ const MoviesTable = ({
         {paginatedMovies.map(movie => (
           <tr key={movie._id}>
             <td>
-              {user && <Link to={`/movies/${movie._id}`}>{movie.title}</Link>}
-              {!user && movie.title}
+              <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
             </td>
             <td>{movie.genre.name}</td>
             <td>{movie.numberInStock}</td>
