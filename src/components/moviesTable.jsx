@@ -2,17 +2,16 @@ import React from "react";
 import LikeButton from "../components/likeButton";
 import { Link } from "react-router-dom";
 import Movies from "./movies";
+import { getCurrentUser } from "../services/authService";
 //import "font-awesome";
 
-const MoviesTable = ({
-  paginatedMovies,
-  onLike,
-  onDelete,
-  onSort,
-  sorted,
-  user
-}) => {
-  const temp = { ...user }; // I don't understand why can't I use it directly without copying first. Otherwise it gives undefined error
+const MoviesTable = ({ paginatedMovies, onLike, onDelete, onSort, sorted }) => {
+  //const temp = { ...user }; // I don't understand why can't I use it directly without copying first. Otherwise it gives undefined error
+  const user = getCurrentUser();
+  let adminStatus = false;
+  if (user) {
+    adminStatus = user.isAdmin;
+  }
   return (
     <table className="table">
       <thead className="thead-dark">
@@ -75,7 +74,7 @@ const MoviesTable = ({
             ></i>
           </th>
           <th>Like</th>
-          {temp.isAdmin && <th>Delete it?</th>}
+          {adminStatus && <th>Delete it?</th>}
         </tr>
       </thead>
       <tbody>
@@ -90,7 +89,7 @@ const MoviesTable = ({
             <td>
               <LikeButton movie={movie} onClick={onLike} />
             </td>
-            {temp.isAdmin && (
+            {adminStatus && (
               <React.Fragment>
                 <td>
                   <button
