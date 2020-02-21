@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 export async function register(user) {
   try {
-    const { headers } = await http.post(config.usersEndpoint, user);
+    const { headers } = await http.post(config.apiEndpoint + "/users", user);
     toast.success(`${user.email} is registered!`);
 
     return headers["x-auth-token"];
@@ -17,7 +17,7 @@ export async function register(user) {
 
 export async function login(user) {
   try {
-    const { data: token } = await http.post(config.authEndpoint, user);
+    const { data: token } = await http.post(config.apiEndpoint + "/auth", user);
     return token;
   } catch (ex) {
     if (ex.response && ex.response.status === 400) {

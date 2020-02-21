@@ -16,7 +16,7 @@ axios.interceptors.response.use(null, error => {
   } else if (error.response && error.response.status === 403) {
     toast.warn("You are not allowed to delete a movie!");
   } else if (error.response && error.response.status === 400) {
-    toast.warn("You are not logged in!");
+    toast.warn(error.response.data);
   }
 
   return Promise.reject(error);
