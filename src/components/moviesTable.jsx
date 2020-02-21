@@ -12,6 +12,7 @@ const MoviesTable = ({
   sorted,
   user
 }) => {
+  const temp = { ...user }; // I don't understand why can't I use it directly without copying first. Otherwise it gives undefined error
   return (
     <table className="table">
       <thead className="thead-dark">
@@ -74,7 +75,7 @@ const MoviesTable = ({
             ></i>
           </th>
           <th>Like</th>
-          {user && <th>Delete it?</th>}
+          {temp.isAdmin && <th>Delete it?</th>}
         </tr>
       </thead>
       <tbody>
@@ -89,7 +90,7 @@ const MoviesTable = ({
             <td>
               <LikeButton movie={movie} onClick={onLike} />
             </td>
-            {user && (
+            {temp.isAdmin && (
               <React.Fragment>
                 <td>
                   <button

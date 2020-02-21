@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import Input from "./common/input";
 import Joi from "joi-browser";
 import Form from "./common/form";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { login } from "../services/userService";
-import { loginAuth } from "../services/authService";
+import { loginAuth, getCurrentUser } from "../services/authService";
 
 class LoginForm extends Form {
   constructor(props) {
@@ -32,6 +32,9 @@ class LoginForm extends Form {
   }
 
   render() {
+    if (getCurrentUser()) {
+      return <Redirect to="/" />;
+    }
     return (
       <React.Fragment>
         <h1>Login</h1>

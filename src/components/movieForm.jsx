@@ -3,7 +3,6 @@ import Joi from "joi-browser";
 import Form from "./common/form";
 import * as Movies from "../services/movieService";
 import { getGenres } from "../services/genreService";
-import { getCurrentUser } from "../services/authService";
 
 class MovieForm extends Form {
   constructor(props) {
