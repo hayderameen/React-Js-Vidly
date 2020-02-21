@@ -4,7 +4,14 @@ import { Link } from "react-router-dom";
 import Movies from "./movies";
 //import "font-awesome";
 
-const MoviesTable = ({ paginatedMovies, onLike, onDelete, onSort, sorted }) => {
+const MoviesTable = ({
+  paginatedMovies,
+  onLike,
+  onDelete,
+  onSort,
+  sorted,
+  user
+}) => {
   return (
     <table className="table">
       <thead className="thead-dark">
@@ -66,15 +73,16 @@ const MoviesTable = ({ paginatedMovies, onLike, onDelete, onSort, sorted }) => {
               }
             ></i>
           </th>
-          <th>Like?</th>
-          <th>Delete it?</th>
+          <th>Like</th>
+          {user && <th>Delete it?</th>}
         </tr>
       </thead>
       <tbody>
         {paginatedMovies.map(movie => (
           <tr key={movie._id}>
             <td>
-              <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+              {user && <Link to={`/movies/${movie._id}`}>{movie.title}</Link>}
+              {!user && movie.title}
             </td>
             <td>{movie.genre.name}</td>
             <td>{movie.numberInStock}</td>
@@ -82,14 +90,18 @@ const MoviesTable = ({ paginatedMovies, onLike, onDelete, onSort, sorted }) => {
             <td>
               <LikeButton movie={movie} onClick={onLike} />
             </td>
-            <td>
-              <button
-                onClick={() => onDelete(movie._id)}
-                className="btn btn-danger"
-              >
-                Delete
-              </button>
-            </td>
+            {user && (
+              <React.Fragment>
+                <td>
+                  <button
+                    onClick={() => onDelete(movie._id)}
+                    className="btn btn-danger"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </React.Fragment>
+            )}
           </tr>
         ))}
       </tbody>

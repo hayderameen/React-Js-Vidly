@@ -10,6 +10,7 @@ import NavBar from "./components/navBar";
 import LoginForm from "./components/loginForm";
 import Logout from "./components/logout";
 import RegisterForm from "./components/registerForm";
+import ProtectedRoute from "./components/common/protectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -21,15 +22,19 @@ class App extends Component {
     this.setState({ user: userObject });
   }
   render() {
+    const { user } = this.state;
     return (
       <React.Fragment>
         <ToastContainer />
-        <NavBar user={this.state.user} />
+        <NavBar user={user} />
         <main className="container" style={{ paddingTop: 60 }}>
           <Switch>
-            <Route path="/movies/:id" component={MovieForm} />
-            <Route path="/movies/new" component={MovieForm} />
-            <Route path="/movies" component={Movies} />
+            <ProtectedRoute path={"/movies/:id"} component={MovieForm} />
+            <ProtectedRoute path={"/movies/new"} component={null} />
+            <Route
+              path="/movies"
+              render={props => <Movies {...props} user={user} />}
+            />
             <Route path="/login" component={LoginForm} />
             <Route path="/logout" component={Logout} />
             <Route path="/register" component={RegisterForm} />

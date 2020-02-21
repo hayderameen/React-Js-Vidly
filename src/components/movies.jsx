@@ -20,8 +20,8 @@ class Movies extends Component {
     searchQuery: "",
     sort: { property: "title", order: "asc" }
   };
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleLike = this.handleLike.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
@@ -121,6 +121,7 @@ class Movies extends Component {
     return { paginatedMovies, tempPaginatedMovies };
   }
   render() {
+    const { user } = this.props;
     if (this.state.moviesCount === 0) {
       return (
         <main className="container">
@@ -139,9 +140,11 @@ class Movies extends Component {
           />
         </div>
         <div className="col-md-8">
-          <Link to={`/movies/new`}>
-            <button className="btn btn-primary">New Movie</button>
-          </Link>
+          {user && (
+            <Link to={`/movies/new`}>
+              <button className="btn btn-primary">New Movie</button>
+            </Link>
+          )}
           <SearchBox
             value={this.state.searchQuery}
             onChange={this.handleSearch}
@@ -153,6 +156,7 @@ class Movies extends Component {
             onDelete={this.handleDelete}
             onSort={this.handleSort}
             sorted={this.state.sort}
+            user={user}
           />
           <Pagination
             itemsCount={tempPaginatedMovies.length}

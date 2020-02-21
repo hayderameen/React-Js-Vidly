@@ -28,7 +28,7 @@ class MovieForm extends Form {
     }
 
     const movie = await Movies.getMovie(this.props.match.params.id);
-    console.log(movie);
+    //console.log(movie);
     if (!movie) {
       this.props.history.replace("/not-found");
       return;
